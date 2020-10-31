@@ -9,7 +9,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses
 ****************************************************/
-
+/*********************************************************
+M5Atom Lite + SSD1306 128x64 OLED Version by @shikarunochi
+**********************************************************/
 #ifndef _EYEDRAWER_h
 #define _EYEDRAWER_h
 
@@ -19,7 +21,18 @@ You should have received a copy of the GNU Affero General Public License along w
 #include "WProgram.h"
 #endif
 
+#include "M5AtomDefine.h"
+
+#ifdef M5AtomFaces
+#include <M5Atom.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#define TFT_CYAN WHITE
+#define TFT_BLACK BLACK
+#else
 #include <M5StickC.h>
+#endif
+
 #include "EyeConfig.h"
 
 
@@ -33,8 +46,11 @@ class EyeDrawer
 {
 
 public:
-
+#ifdef M5AtomFaces
+  static void Draw(Adafruit_SSD1306& buffer, int16_t centerX, int16_t centerY, EyeConfig* config)
+#else
 	static void Draw(TFT_eSprite& buffer, int16_t centerX, int16_t centerY, EyeConfig* config)
+#endif
 	{
 		int32_t delta_y_top = config->Height * config->Slope_Top / 2.0;
 		int32_t delta_y_bottom = config->Height * config->Slope_Bottom / 2.0;
@@ -195,8 +211,11 @@ public:
 		}
 
 	}
-
+#ifdef M5AtomFaces
+  static void FilleEllipseCorner(Adafruit_SSD1306& buffer, CornerType corner, int16_t x0, int16_t y0, int32_t rx, int32_t ry, uint16_t color)
+#else
 	static void FilleEllipseCorner(TFT_eSprite& buffer, CornerType corner, int16_t x0, int16_t y0, int32_t rx, int32_t ry, uint16_t color)
+#endif
 	{
 		if (rx < 2) return;
 		if (ry < 2) return;
@@ -309,12 +328,19 @@ public:
 		}
 	}
 
+#ifdef M5AtomFaces
+  static void FillReactangle(Adafruit_SSD1306& buffer, int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t color)
+#else
 	static void FillReactangle(TFT_eSprite& buffer, int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t color)
+#endif
 	{
 		buffer.fillRect(x0, y0, x1 - x0, y1 - y0, color);
 	}
-
+#ifdef M5AtomFaces
+  static void FillRectangularTriangle(Adafruit_SSD1306& buffer, int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t color)
+#else
 	static void FillRectangularTriangle(TFT_eSprite& buffer, int32_t x0, int32_t y0, int32_t x1, int32_t y1, int32_t color)
+#endif
 	{
 		buffer.fillTriangle(x0, y0, x1, y1, x1, y0, color);
 	}
@@ -322,4 +348,3 @@ public:
 
 
 #endif
-

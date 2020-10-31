@@ -9,11 +9,17 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses 
 ****************************************************/
-
+/*********************************************************
+M5Atom Lite + SSD1306 128x64 OLED Version by @shikarunochi
+**********************************************************/
 
 #include "Face.h"
 
+#ifdef M5AtomFaces
+Face::Face(Adafruit_SSD1306& buffer, uint16_t screenWidth, uint16_t screenHeight, uint16_t eyeSize) 
+#else
 Face::Face(TFT_eSprite& buffer, uint16_t screenWidth, uint16_t screenHeight, uint16_t eyeSize) 
+#endif
 	: LeftEye(*this), RightEye(*this), Blink(*this), Look(*this), Behavior(*this), Expression(*this), _buffer(buffer)
 {
 	Width = screenWidth;
@@ -91,6 +97,9 @@ void Face::Draw()
 	RightEye.CenterY = CenterY;
 	RightEye.Draw(_buffer);
 
-	_buffer.pushSprite(0, 0);
+#ifdef M5AtomFaces
+	 _buffer.display();
+#else
+  _buffer.pushSprite(0, 0);
+#endif
 }
-

@@ -9,7 +9,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses
 ****************************************************/
-
+/*********************************************************
+M5Atom Lite + SSD1306 128x64 OLED Version by @shikarunochi
+**********************************************************/
 #include "Eye.h"
 
 
@@ -50,7 +52,11 @@ void Eye::Update()
 	BlinkTransformation.Update();
 }
 
+#ifdef M5AtomFaces
+void Eye::Draw(Adafruit_SSD1306& buffer)
+#else
 void Eye::Draw(TFT_eSprite& buffer)
+#endif
 {
 	Update();
 	EyeDrawer::Draw(buffer, CenterX, CenterY, FinalConfig);

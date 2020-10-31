@@ -9,7 +9,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses
 ****************************************************/
-
+/*********************************************************
+M5Atom Lite + SSD1306 128x64 OLED Version by @shikarunochi
+**********************************************************/
 #ifndef _EYE_h
 #define _EYE_h
 
@@ -19,6 +21,7 @@ You should have received a copy of the GNU Affero General Public License along w
 #include "WProgram.h"
 #endif
 
+#include "M5AtomDefine.h"
 
 #include "Animations.h"
 #include "EyeConfig.h"
@@ -62,9 +65,12 @@ public:
 	void ApplyPreset(const EyeConfig preset);
 	void TransitionTo(const EyeConfig preset);
 
+#ifdef M5AtomFaces
+  void Draw(Adafruit_SSD1306& buffer);
+#else
 	void Draw(TFT_eSprite& buffer);
+#endif
 };
 
 
 #endif
-

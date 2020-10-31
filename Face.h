@@ -9,7 +9,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses
 ****************************************************/
-
+/*********************************************************
+M5Atom Lite + SSD1306 128x64 OLED Version by @shikarunochi
+**********************************************************/
 #ifndef _FACE_h
 #define _FACE_h
 
@@ -19,6 +21,8 @@ You should have received a copy of the GNU Affero General Public License along w
 #include "WProgram.h"
 #endif
 
+#include "M5AtomDefine.h"
+
 #include "Animations.h"
 #include "EyePresets.h"
 #include "Eye.h"
@@ -27,17 +31,24 @@ You should have received a copy of the GNU Affero General Public License along w
 #include "LookAssistant.h"
 #include "BlinkAssistant.h"
 
-
-
 class Face
 {
 protected:
+
+#ifdef M5AtomFaces
+  Adafruit_SSD1306& _buffer;
+#else
 	TFT_eSprite& _buffer;
+#endif
 
 	void Draw();
 
 public:
+#ifdef M5AtomFaces
+  Face(Adafruit_SSD1306& buffer, uint16_t screenWidth, uint16_t screenHeight, uint16_t eyeSize);
+#else
 	Face(TFT_eSprite& buffer, uint16_t screenWidth, uint16_t screenHeight, uint16_t eyeSize);
+#endif
 
 	uint32_t Background;
 
@@ -77,4 +88,3 @@ public:
 
 
 #endif
-
